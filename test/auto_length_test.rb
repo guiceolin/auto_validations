@@ -38,3 +38,14 @@ class BelowLengthValidationsTest < Test::Unit::TestCase
     assert @android.valid?
   end
 end
+
+class AllowBlankTest < Test::Unit::TestCase
+  def setup
+    Android.auto_length_validation
+    @android = Android.new :name => nil
+  end
+
+  def test_should_not_throw_errors
+    assert_nothing_thrown { @android.valid? }
+  end
+end
