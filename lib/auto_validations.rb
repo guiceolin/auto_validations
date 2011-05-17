@@ -6,8 +6,9 @@ module AutoValidations
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def auto_length_validation
-      columns.each do |column|
+    def auto_length_validation(options = {})
+      options.reverse_merge! :except => []
+      columns.select { |c| !options[:except].include?(c.name) }.each do |column|
         validates_length_of column.name, :maximum => column.limit, :allow_blank => true if column.limit
       end
     end

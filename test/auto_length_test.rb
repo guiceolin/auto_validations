@@ -49,3 +49,15 @@ class AllowBlankTest < Test::Unit::TestCase
     assert_nothing_thrown { @android.valid? }
   end
 end
+
+class WithExceptTest < Test::Unit::TestCase
+  def setup
+    Saiyajin.auto_length_validation :except => 'name'
+    @saiyajin = Saiyajin.new :name => 'Goku the super saiyajin in the earth', :age => 5, :super => true
+  end
+
+  def test_should_be_valid
+    assert @saiyajin.valid?
+  end 
+end
+
