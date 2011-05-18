@@ -52,12 +52,50 @@ end
 
 class WithExceptTest < Test::Unit::TestCase
   def setup
-    Saiyajin.auto_length_validation :except => 'name'
-    @saiyajin = Saiyajin.new :name => 'Goku the super saiyajin in the earth', :age => 5, :super => true
+    Saiyajin.auto_length_validation :except => 'name'  
   end
 
-  def test_should_be_valid
-    assert @saiyajin.valid?
+  def test_should_not_include_validator_on_name
+    assert_equal Saiyajin.validators_on(:name).map(&:kind).include?(:lenght), false
   end 
+
+  def test_should_include_validation_on_age
+    assert Saiyajin.validators_on(:age).map(&:kind).include?(:length)
+  end
 end
+
+class WithExceptAsArrayTest < Test::Unit::TestCase
+  def setup
+    Namek.auto_length_validation :except => ['name', :master]  
+  end
+
+  def test_should_not_include_validator_on_name
+    assert_equal Namek.validators_on(:name).map(&:kind).include?(:lenght), false
+  end 
+
+  def test_should_not_include_validation_on_master
+    assert_equal Namek.validators_on(:master).map(&:kind).include?(:length), false
+  end
+ 
+  def test_should_include_validation_on_qi
+    assert Namek.validators_on(:qi).map(&:kind).include?(:length)
+  end
+end
+
+class IgnoreFieldsTest < Test::Unit::TestCase
+  def setup 
+    Saiyajin.auto_length_validation
+  end
+
+  def test_should_not_include_validation_on_boolean_file
+    assert_equal Saiyajin.validators_on(:super).map(&:kind).include?(:length), false
+  end
+
+  def test_should_include_validation_on_text_file
+    assert Saiyajin.validators_on(:name).map(&:kind).include?(:length)
+  end
+end
+
+
+
 

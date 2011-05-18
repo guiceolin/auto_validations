@@ -10,4 +10,11 @@ ActiveRecord::Schema.define do
     t.boolean :super
     t.integer :age,        :limit => 3
   end
+
+  create_table :nameks, :force => true do |t|
+    t.string :name,        :limit => 3
+    t.integer :qi,         :limit => 1000
+    t.integer :age
+    t.string :master,      :limit => 10
+  end
 end
